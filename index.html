@@ -1,0 +1,15 @@
+<html>
+<head>
+<title>image search abstraction layer</title>
+</head>
+<body>
+<h1>image search abstraction layer</h1><br />
+<b>uses Bing API V5 image search API</b><br />
+<p><em>usage: https://imgsea.herokuapp.com/api/imagesearch/?q=QUERY&o=OFFSET</em><br />
+Offset can be used to paginate through results. Each result set returns 10 items, and offset = 1, for instance, returns items 11-20.<br />
+<u>results look like</u>: {"image_url":url,"thumb_url":url,"alt_text":text,"page_url":url}
+<em>usage: https://imgsea.herokuapp.com/api/latest</em><br />
+Gives latest searches.<br />
+<u>results look like</u>: {"term":search term,"when":UTC timestamp of search event}</p>
+</body>
+</html>
