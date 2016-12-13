@@ -7,7 +7,7 @@ var request=require('request');
 var db_url=process.env.PROD_DB||'mongodb://localhost:27017/';
 var app=express();
 app.use(express.static('/'));
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
 /*
@@ -36,7 +36,7 @@ else{console.log(err);}
 
 app.get('/api/imagesearch/*', function(req,res) {
 var q=req.query.q; 
-var o=req.query.o; 
+var o=(req.query.o||0); 
 
 var options = {
 url: 'https://api.cognitive.microsoft.com/bing/v5.0/images/search?q='+q+'&count=10&offset='+o+'&mkt=en-us&safeSearch=Moderate',
