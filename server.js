@@ -10,14 +10,13 @@ app.use(express.static('/'));
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
-/*
 function returnIfExists(squee,offset) {
 mongo.connect(db_url, function(err, db){ if (!err) {
 db.collection('squeeze').findOne({'term':squee, 'offset':offset},{'_id':0,'term':0,'when':0,'offset':0}, function(err, data){
-if (data!==null) { return rawDataPretty(JSON.parse(data)); }
+if (data!==null) { return JSON.parse(data); }
 else { return false; }
 });
-}});}*/
+}});}
 
 function addQuery(squee,offset,res_set) {//default to zero offset
 // doesn't exist so save
@@ -45,6 +44,12 @@ headers: {'Ocp-Apim-Subscription-Key': process.env.API_KEY }
 };
 
 if((q.match(/^[A-Za-z]{2,}/))&&(q.length<1500)){ //go ahead and submit query after reasonable validation
+var alreadySearched=returnIfExists(q,o);
+if(alreadySearched){
+res.send(alreadySearched);
+addQuery(q,o,null); //add query anyway for recent queries to work
+}
+else { //we have to pull from API and then push to db
 function callback(err, response, body) {
 if (!err && response.statusCode == 200) {
 var info=JSON.parse(body);
@@ -58,6 +63,7 @@ res.send(resultArr);
 }
 }
 request(options, callback);
+}
 }});
 
 app.get('/api/latest', function(req,res) {latestQueries(res);});
