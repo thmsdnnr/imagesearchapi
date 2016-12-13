@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 function returnIfExists(squee,offset) {
 mongo.connect(db_url, function(err, db){ if (!err) {
 db.collection('squeeze').findOne({'term':squee, 'offset':offset},{'_id':0,'term':0,'when':0,'offset':0}, function(err, data){
-if (data!==null) { return JSON.parse(data); }
+if (data!==null) { return data; }
 else { return false; }
 });
 }});}
